@@ -3,14 +3,23 @@
   method="post"
   enctype="multipart/form-data"
 >
-  <label>Nombre del product:</label>
-  <input type="text" name="name" />
+  <label>Nombre del producto:</label>
+  <input type="text" name="title" />
   <br />
-  <label>Marca del product:</label>
-  <input type="text" name="brand" />
+  <label>Descripcion del producto:</label>
+  <input type="text" name="description" />
   <br />
-  <label>Año del product:</label>
-  <input type="number" name="year" />
+  <label>Código del producto:</label>
+  <input type="text" name="code" />
+  <br />
+  <label>Precio del producto:</label>
+  <input type="number" name="price" />
+  <br />
+  <label>Stock del producto:</label>
+  <input type="number" name="stock" />
+  <br />
+  <label>Categoria del producto:</label>
+  <input type="text" name="category" />
   <br />
   <label>Imagen:</label>
   <input type="file" name="file" />
@@ -21,9 +30,14 @@
 {{#each products}}
   <div>
     <img src="http://localhost:8080/static/{{this.image}}" />
-    <h2>{{this.name}}</h2>
-    <p>{{this.brand}}</p>
-    <p>{{this.year}}</p>
+    <h2>{{this.title}}</h2>
+    <p>{{this.description}}</p>
+    <p>{{this.code}}</p>
+    <p>{{this.price}}</p>
+    <p>{{this.stock}}</p>
+    <p>{{this.category}}</p>
     <p>{{this.image}}</p>
   </div>
 {{/each}}
+
+{{! title, description, code, price, stock, category, image }}

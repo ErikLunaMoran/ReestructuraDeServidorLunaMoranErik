@@ -1,11 +1,14 @@
-import { autoModel } from "../models/product.model.js";
+import { productModel } from "../models/products.model.js";
 
 class ProductsManager {
-  async create(name, brand, year, image) {
-    const product = await autoModel.create({
-      name,
-      brand,
-      year,
+  async create(title, description, code, price, stock, category, image) {
+    const product = await productModel.create({
+      title,
+      description,
+      code,
+      price,
+      stock,
+      category,
       image,
     });
 
@@ -13,7 +16,7 @@ class ProductsManager {
   }
 
   async getAll() {
-    const products = await autoModel.find().lean();
+    const products = await productModel.find().lean();
     return products;
   }
 }

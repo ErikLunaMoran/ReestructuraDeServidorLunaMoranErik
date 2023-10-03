@@ -4,7 +4,7 @@ import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 
 import viewsRouter from "./routes/views.router.js";
-import autosRouter from "./routes/products.router.js";
+import productsRouter from "./routes/products.router.js";
 
 import { mensajeModel } from "./dao/models/messages.model.js";
 
@@ -27,7 +27,7 @@ app.set("view engine", "handlebars");
 
 app.use("/static", express.static("./public")); //servidor capaz de entregar archivos estaticos
 app.use(viewsRouter);
-app.use("/products", autosRouter);
+app.use("/products", productsRouter);
 
 socketServer.on("connection", (socket) => {
   console.log("Se conectó", socket.id);

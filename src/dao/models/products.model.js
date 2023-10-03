@@ -1,18 +1,37 @@
 import mongoose from "mongoose";
 
-const autoCollection = "products";
+const productCollection = "products";
 
-const autoSchema = new mongoose.Schema({
-  name: {
+const productSchema = new mongoose.Schema({
+  /* title,
+      description,
+      code,
+      price,
+      stock,
+      category,
+      image, */
+  title: {
     type: String,
     required: true,
   },
-  brand: {
+  description: {
     type: String,
     required: true,
   },
-  year: {
+  code: {
+    type: String,
+    required: true,
+  },
+  price: {
     type: Number,
+    required: true,
+  },
+  stock: {
+    type: Number,
+    required: true,
+  },
+  category: {
+    type: String,
     required: true,
   },
   image: {
@@ -21,5 +40,5 @@ const autoSchema = new mongoose.Schema({
   },
 });
 
-const autoModel = mongoose.model(autoCollection, autoSchema);
-export { autoModel };
+const productModel = mongoose.model(productCollection, productSchema);
+export { productModel };
