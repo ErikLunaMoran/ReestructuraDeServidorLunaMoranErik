@@ -11,18 +11,12 @@ export default class CartManager {
     return newCart.id;
   }
 
-  async getCartProducts(cid) {
-    const cart = await cartModel.find({ _id: cid });
-    return cart;
-  }
-}
-
-/* async getCartProducts(cid) {
+  async getCartById(cid) {
     try {
-      const carts = await this.getCarts();
-      const cart = carts.find((cart) => cart.id === cid);
-      return cart ? cart.products : null;
+      const cart = await cartModel.findById(cid);
+      return cart;
     } catch (error) {
       throw error;
     }
-  } */
+  }
+}

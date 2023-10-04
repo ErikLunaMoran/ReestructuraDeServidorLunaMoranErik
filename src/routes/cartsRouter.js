@@ -1,5 +1,4 @@
 import { Router } from "express";
-import CartManager from "../dao/db/CartsManager.js";
 
 const cartsRouter = (cartManager) => {
   const router = Router();
@@ -26,9 +25,9 @@ const cartsRouter = (cartManager) => {
 
   //GET PARA LISTAR CARRITOS
   router.get("/:cid", async (req, res) => {
-    const cid = parseInt(req.params.cid, 10);
+    const cid = req.params.cid;
 
-    try {
+    /* try {
       const cartProducts = await cartManager.getCartProducts(cid);
       if (!cartProducts) {
         return res.status(404).send("Carrito no encontrado");
@@ -37,6 +36,16 @@ const cartsRouter = (cartManager) => {
       res.json(cartProducts);
     } catch (error) {
       res.status(500).send("Error al obtener los productos del carrito");
+    } */
+    try {
+      const cart = await cartManager.getCartById(cid);
+      if (!cart) {
+        return res.status(404).send("Carrito no encontrado");
+      }
+
+      res.json(cart);
+    } catch (error) {
+      res.status(500).send("Error al obtener el carrito");
     }
   });
 
@@ -70,3 +79,5 @@ const cartsRouter = (cartManager) => {
 };
 
 export default cartsRouter;
+
+/* import CartManager from "../dao/db/CartsManager.js"; */
