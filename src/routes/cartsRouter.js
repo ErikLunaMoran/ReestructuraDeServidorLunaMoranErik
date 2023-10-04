@@ -8,13 +8,23 @@ const cartsRouter = (cartManager) => {
   router.post("/", async (req, res) => {
     try {
       const newCart = await cartManager.createCart();
-      res.status(201).json(newCart); // 201: Created
+      res.status(201).json({ message: "Carro creado!", newCart }); // 201: Created
     } catch (error) {
       res.status(500).send("Error al crear el carrito");
     }
   });
 
-  //GET PARA LISTAR PRODUCTOS DE UN CARRITO
+  //GET PARA LISTAR TODOS LOS CARRITOS
+  router.get("/", async (req, res) => {
+    try {
+      const allCarts = await cartManager.getAllCarts();
+      res.json(allCarts);
+    } catch (error) {
+      res.status(500).send("Error al obtener los carritos");
+    }
+  });
+
+  //GET PARA LISTAR CARRITOS
   router.get("/:cid", async (req, res) => {
     const cid = parseInt(req.params.cid, 10);
 
