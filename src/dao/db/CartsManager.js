@@ -13,7 +13,7 @@ export default class CartManager {
 
   async getCartById(cid) {
     try {
-      const cart = await cartModel.findById(cid);
+      const cart = await cartModel.findById(cid).lean();
       return cart;
     } catch (error) {
       throw error;
