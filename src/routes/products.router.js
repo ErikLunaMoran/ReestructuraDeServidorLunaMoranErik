@@ -41,8 +41,8 @@ router.get("/", async (req, res) => {
       nextPage: products.nextPage,
     };
 
-    res.send(response);
-    /* res.render("cardProducts", { cardProducts: products.docs }); */
+    /* res.send(response); */
+    res.render("cardProducts", { cardProducts: products.docs });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error en la solicitud");
