@@ -117,16 +117,8 @@ const cartsRouter = (cartManager) => {
       // Generar la respuesta con la información solicitada
       const response = {
         status: "success",
-        payload: updatedCart.products,
-        totalDocs: products.totalDocs,
-        limit: products.limit,
-        totalPages: products.totalPages,
-        page: products.page,
-        pagingCounter: products.pagingCounter,
-        hasPrevPage: products.hasPrevPage,
-        hasNextPage: products.hasNextPage,
-        prevPage: products.prevPage,
-        nextPage: products.nextPage,
+        payload: updatedCart.products, // Asegúrate de que esta propiedad sea correcta
+        // Otras propiedades como totalDocs, limit, totalPages, etc.
       };
 
       res.json(response);
@@ -176,7 +168,3 @@ const cartsRouter = (cartManager) => {
 };
 
 export default cartsRouter;
-
-//PUT PARA ACTUALIZAR EL CARRITO
-
-//PUT PARA ACTIALIZAR LA CANTIDAD

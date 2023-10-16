@@ -108,4 +108,57 @@ export default class CartManager {
       throw error;
     }
   }
+
+  // Actualiza un carrito con un arreglo de productos
+  async updateCart(cid, updatedProducts) {
+    try {
+      // Verifica si el carrito con el ID (cid) existe
+      const cart = await cartModel.findById(cid);
+
+      if (!cart) {
+        throw new Error("Carrito no encontrado");
+      }
+
+      // Actualiza los productos en el carrito con el nuevo arreglo
+      cart.products = updatedProducts;
+
+      // Guarda el carrito actualizado en la base de datos
+      await cart.save();
+
+      return cart; // Devuelve el carrito actualizado
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // Actualiza la cantidad de ejemplares de un producto en un carrito
+  async updateProductQuantity(cid, pid, quantity) {
+    try {
+      // Verifica si el carrito con el ID (cid) existe
+      const cart = await cartModel.findById(cid);
+
+      if (!cart) {
+        throw new Error("Carrito no encontrado");
+      }
+
+      // Busca el producto en el carrito por su ID (pid)
+      const productInCart = cart.products.find(
+        (item) => item.product.toString() === pid
+      );
+
+      if (!productInCart) {
+        throw new Error("Producto no encontrado en el carrito");
+      }
+
+      // Actualiza la cantidad del producto
+      productInCart.quantity = quantity;
+
+      // Guarda el carrito actualizado en la base de datos
+      await cart.save();
+
+      return cart; // Devuelve el carrito actualizado
+    } catch (error) {
+      throw error;
+    }
+  }
 }
