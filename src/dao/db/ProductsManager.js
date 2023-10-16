@@ -11,13 +11,17 @@ class ProductsManager {
       category,
       image,
     });
-
     return product;
   }
 
   async getAll() {
     const products = await productModel.find().lean();
     return products;
+  }
+
+  async getProductById(pid) {
+    const product = await productModel.findById(pid).lean();
+    return product;
   }
 }
 

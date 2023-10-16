@@ -36,8 +36,11 @@ app.set("view engine", "handlebars");
 
 app.use("/static", express.static("./public")); //servidor capaz de entregar archivos estaticos
 app.use(viewsRouter);
-app.use("/products", productsRouter);
 
+//PRODUCTOS ENDPOINT
+app.use("/api/products", productsRouter);
+
+//MENSAJES
 socketServer.on("connection", (socket) => {
   console.log("Se conectó", socket.id);
   socket.on("mensaje", async (data) => {
@@ -48,4 +51,5 @@ socketServer.on("connection", (socket) => {
   });
 });
 
+//CARRITOS ENDPOINT
 app.use("/api/carts", cartsRouter(cartManager));

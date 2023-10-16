@@ -23,20 +23,9 @@ const cartsRouter = (cartManager) => {
     }
   });
 
-  //GET PARA LISTAR CARRITOS
+  //GET PARA OBTENER UN CARRITO EN ESPECIFICO
   router.get("/:cid", async (req, res) => {
     const cid = req.params.cid;
-
-    /* try {
-      const cartProducts = await cartManager.getCartProducts(cid);
-      if (!cartProducts) {
-        return res.status(404).send("Carrito no encontrado");
-      }
-
-      res.json(cartProducts);
-    } catch (error) {
-      res.status(500).send("Error al obtener los productos del carrito");
-    } */
     try {
       const cart = await cartManager.getCartById(cid);
       if (!cart) {
@@ -51,9 +40,9 @@ const cartsRouter = (cartManager) => {
 
   //POST PARA AGREGAR PRODUCTOS A UN CARRITO
   router.post("/:cid/product/:pid", async (req, res) => {
-    const cid = parseInt(req.params.cid, 10);
-    const pid = parseInt(req.params.pid, 10);
-    const quantity = parseInt(req.body.quantity, 10);
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    const quantity = req.body.quantity;
 
     if (!quantity || quantity <= 0) {
       return res.status(400).send("Cantidad inválida");
@@ -75,9 +64,46 @@ const cartsRouter = (cartManager) => {
     }
   });
 
+  //DELETE PARA ELIMINAR UN PRODUCTO DE UN CARRITO
+  router.delete("/:cid/product/:pid", async (req, res) => {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+
+    try {
+      const productRemoved = await cartManager.removeProductFromCart(cid, pid);
+
+      if (!productRemoved) {
+        return res.status(404).send("Producto no encontrado en el carrito");
+      }
+
+      res.status(204).send(); //Indicando que se eliminó con éxito
+    } catch (error) {
+      res.status(500).send("Error al eliminar el producto del carrito");
+    }
+  });
+
+  //DELETE PARA ELIMINAR TODOS LOS PRODUCTOS DEL CARRITO
+  router.delete("/:cid", async (req, res) => {
+    const cid = req.params.cid;
+
+    try {
+      const cartEmpty = await cartManager.removeAllProductsFromCart(cid);
+
+      if (!cartEmpty) {
+        return res.status(404).send("Carrito no encontrado");
+      }
+
+      res.status(204).send(); // 204: No Content, indicando que se eliminaron todos los productos
+    } catch (error) {
+      res.status(500).send("Error al eliminar los productos del carrito");
+    }
+  });
+
   return router;
 };
 
 export default cartsRouter;
 
-/* import CartManager from "../dao/db/CartsManager.js"; */
+//PUT PARA ACTUALIZAR EL CARRITO
+
+//PUT PARA ACTIALIZAR LA CANTIDAD
