@@ -9,10 +9,13 @@
       <div class="product-card">
         <img src="http://localhost:8080/static/{{this.image}}" />
         <h2>{{this.title}}</h2>
-        <p>{{thisdescription}}</p>
+        <p>{{this.description}}</p>
         <p>Precio: ${{this.price}}</p>
-        <button class="add-to-cart" data-product-id="{{_id}}">Agregar al carrito</button>
+        <button class="add-to-cart" data-product-id="{{this._id}}">Agregar al
+          carrito</button>
       </div>
     {{/each}}
   </body>
 </html>
+
+<script src="/src/views/boton.js"></script>
