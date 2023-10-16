@@ -32,7 +32,9 @@ const cartsRouter = (cartManager) => {
         return res.status(404).send("Carrito no encontrado");
       }
 
-      res.json(cart);
+      // Renderiza la vista y pasa el carrito como contexto
+      res.render("cartView", { cart });
+      /* res.json(cart); */
     } catch (error) {
       res.status(500).send("Error al obtener el carrito");
     }
@@ -96,6 +98,77 @@ const cartsRouter = (cartManager) => {
       res.status(204).send(); // 204: No Content, indicando que se eliminaron todos los productos
     } catch (error) {
       res.status(500).send("Error al eliminar los productos del carrito");
+    }
+  });
+
+  // PUT para actualizar un carrito con un arreglo de productos
+  router.put("/:cid", async (req, res) => {
+    const cid = req.params.cid;
+    const updatedProducts = req.body.products; // Arreglo de productos actualizado
+
+    try {
+      const updatedCart = await cartManager.updateCart(cid, updatedProducts);
+      if (!updatedCart) {
+        return res
+          .status(404)
+          .send({ status: "error", message: "Carrito no encontrado" });
+      }
+
+      // Generar la respuesta con la información solicitada
+      const response = {
+        status: "success",
+        payload: updatedCart.products,
+        totalDocs: products.totalDocs,
+        limit: products.limit,
+        totalPages: products.totalPages,
+        page: products.page,
+        pagingCounter: products.pagingCounter,
+        hasPrevPage: products.hasPrevPage,
+        hasNextPage: products.hasNextPage,
+        prevPage: products.prevPage,
+        nextPage: products.nextPage,
+      };
+
+      res.json(response);
+    } catch (error) {
+      res
+        .status(500)
+        .send({ status: "error", message: "Error al actualizar el carrito" });
+    }
+  });
+
+  // PUT para actualizar la cantidad de ejemplares de un producto en un carrito
+  router.put("/:cid/products/:pid", async (req, res) => {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    const quantity = req.body.quantity;
+
+    if (!quantity || quantity < 0) {
+      return res
+        .status(400)
+        .send({ status: "error", message: "Cantidad inválida" });
+    }
+
+    try {
+      const updatedProduct = await cartManager.updateProductQuantity(
+        cid,
+        pid,
+        quantity
+      );
+      if (!updatedProduct) {
+        return res.status(404).send({
+          status: "error",
+          message: "Producto o carrito no encontrado",
+        });
+      }
+
+      // Respuesta exitosa
+      res.json(updatedProduct);
+    } catch (error) {
+      res.status(500).send({
+        status: "error",
+        message: "Error al actualizar la cantidad del producto en el carrito",
+      });
     }
   });
 
