@@ -12,12 +12,19 @@ router.post("/singup", async (req, res) => {
     return res.send("Ya estás registrado");
   }
 
+  // Verifica si el correo es "adminCoder@coder.com" y si el password es "adminCod3r123".
+  const role =
+    email === "adminCoder@coder.com" && password === "adminCod3r123"
+      ? "admin"
+      : "usuario";
+
   const user = await userModel.create({
     first_name,
     last_name,
     email,
     age,
     password,
+    role, // Establece el rol del usuario.
   });
 
   req.session.first_name = first_name;
@@ -26,7 +33,14 @@ router.post("/singup", async (req, res) => {
   req.session.age = age;
   req.session.isLogged = true;
 
-  res.redirect("/api/products");
+  req.session.role = user.role; // Establece el rol en la sesión.
+
+  /* res.redirect("/api/products"); */
+  if (user.role === "admin") {
+    res.redirect("/api/adminPage");
+  } else {
+    res.redirect("/api/products");
+  }
 });
 
 router.post("/login", async (req, res) => {
@@ -42,7 +56,15 @@ router.post("/login", async (req, res) => {
   req.session.email = user.email;
   req.session.age = user.age;
   req.session.isLogged = true;
-  res.redirect("/api/products");
+
+  req.session.role = user.role; // Establece el rol en la sesión.
+
+  /* res.redirect("/api/products"); */
+  if (user.role === "admin") {
+    res.redirect("/api/adminPage");
+  } else {
+    res.redirect("/api/products");
+  }
 });
 
 export default router;

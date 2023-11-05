@@ -1,0 +1,8 @@
+<h1>Bienvenido Admin {{first_name}} {{last_name}}</h1>
+
+<button id="logoutButton">Logout</button>
+<script>
+  document.getElementById("logoutButton").addEventListener("click", function() {
+  fetch("/logout", { method: "GET", credentials: "same-origin"
+  }).then(function() { window.location.href = "/login"; }); });
+</script>

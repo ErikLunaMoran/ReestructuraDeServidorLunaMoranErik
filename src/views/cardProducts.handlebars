@@ -4,6 +4,13 @@
   </head>
   <body>
 
+    <h1>Bienvenido {{first_name}} {{last_name}}</h1>
+
+    <h2>email: {{email}}</h2>
+    <h2>Edad: {{age}} años</h2>
+
+    <button id="logoutButton">Logout</button>
+
     <h1>Lista de Productos</h1>
 
     {{#each cardProducts}}
@@ -20,3 +27,8 @@
 </html>
 
 <script src="/static/js/boton.js"></script>
+<script>
+  document.getElementById("logoutButton").addEventListener("click", function() {
+  fetch("/logout", { method: "GET", credentials: "same-origin"
+  }).then(function() { window.location.href = "/login"; }); });
+</script>

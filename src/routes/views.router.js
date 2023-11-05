@@ -24,12 +24,6 @@ router.get("/singup", publicRoutes, (req, res) => {
   res.render("singup");
 });
 
-//Endpoint de Profile
-/* router.get("/profile", privateRoutes, (req, res) => {
-  const { first_name, last_name, email, age } = req.session;
-  res.render("profile", { first_name, last_name, email, age });
-}); */
-
 router.get("/api/products", privateRoutes, (req, res) => {
   const { first_name, last_name, email, age } = req.session;
   res.render("api/products", { first_name, last_name, email, age });
@@ -40,4 +34,17 @@ router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/login");
 });
+
+//Endpoint de admin
+router.get("/api/adminPage", privateRoutes, (req, res) => {
+  const { first_name, last_name, email, age } = req.session;
+  res.render("adminPage", { first_name, last_name, email, age });
+});
+
 export default router;
+
+//Endpoint de Profile
+/* router.get("/profile", privateRoutes, (req, res) => {
+  const { first_name, last_name, email, age } = req.session;
+  res.render("profile", { first_name, last_name, email, age });
+}); */
