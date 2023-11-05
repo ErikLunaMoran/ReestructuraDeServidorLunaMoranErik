@@ -4,10 +4,14 @@ import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 
+import MongoStore from "connect-mongo";
+import session from "express-session";
+
 //Routes
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/cartsRouter.js";
+import userRouter from "./routes/userRouter.js";
 //Managers
 /* import ProductManager from "./manager/ProductManager.js"; */
 import CartManager from "./dao/db/CartsManager.js";
@@ -29,16 +33,33 @@ const cartManager = new CartManager();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//Handelbars
+//Handelbars motor
 app.engine("handlebars", handlebars.engine());
 app.set("views", "./src/views");
 app.set("view engine", "handlebars");
 
 app.use("/static", express.static("./public")); //servidor capaz de entregar archivos estaticos
-app.use(viewsRouter);
+/* app.use(viewsRouter); */
 
 //PRODUCTOS ENDPOINT
 app.use("/api/products", productsRouter);
+
+//SESIONES
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://lunamoranerik:dPD7hggiuqpQOBkR@cluster0.svnnjjy.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=AtlasApp",
+      ttl: 15,
+    }),
+    secret: "dxjimopcfvsdfv24$nbg9w4ro",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use("/api", userRouter);
+app.use("/", viewsRouter);
 
 //MENSAJES
 socketServer.on("connection", (socket) => {
