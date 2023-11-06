@@ -39,7 +39,7 @@ router.post("/singup", async (req, res) => {
   if (user.role === "admin") {
     res.redirect("/api/adminPage");
   } else {
-    res.redirect("/api/products");
+    res.redirect("/api/verProducts");
   }
 });
 
@@ -63,7 +63,7 @@ router.post("/login", async (req, res) => {
   if (user.role === "admin") {
     res.redirect("/api/adminPage");
   } else {
-    res.redirect("/api/products");
+    res.redirect("/api/verProducts");
   }
 });
 

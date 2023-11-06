@@ -24,9 +24,9 @@ router.get("/singup", publicRoutes, (req, res) => {
   res.render("singup");
 });
 
-router.get("/api/products", privateRoutes, (req, res) => {
+router.get("/api/verProducts", privateRoutes, (req, res) => {
   const { first_name, last_name, email, age } = req.session;
-  res.render("api/products", { first_name, last_name, email, age });
+  res.render("api/verProducts", { first_name, last_name, email, age });
 });
 
 //Endpoint de logout
