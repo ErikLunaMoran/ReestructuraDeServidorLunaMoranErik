@@ -4,8 +4,13 @@ import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 
+//Sesiones
 import MongoStore from "connect-mongo";
 import session from "express-session";
+
+//Passport
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 //Routes
 import viewsRouter from "./routes/views.router.js";
@@ -57,6 +62,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+initializePassport();
 
 app.use("/api", userRouter);
 app.use("/", viewsRouter);

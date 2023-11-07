@@ -24,9 +24,10 @@ router.get("/singup", publicRoutes, (req, res) => {
   res.render("singup");
 });
 
-router.get("/api/verProducts", privateRoutes, (req, res) => {
+router.get("/api/profileProducts", privateRoutes, async (req, res) => {
+  const products = await productsManager.getAll();
   const { first_name, last_name, email, age } = req.session;
-  res.render("api/verProducts", { first_name, last_name, email, age });
+  res.render("products", { products, first_name, last_name, email, age });
 });
 
 //Endpoint de logout
@@ -41,10 +42,7 @@ router.get("/api/adminPage", privateRoutes, (req, res) => {
   res.render("adminPage", { first_name, last_name, email, age });
 });
 
-export default router;
+router.get("failregister", (req, res) => res.send("Fallo en registro"));
+router.get("faillogin", (req, res) => res.send("Fallo en login"));
 
-//Endpoint de Profile
-/* router.get("/profile", privateRoutes, (req, res) => {
-  const { first_name, last_name, email, age } = req.session;
-  res.render("profile", { first_name, last_name, email, age });
-}); */
+export default router;

@@ -1,6 +1,6 @@
 const publicRoutes = (req, res, next) => {
   if (req.session.isLogged) {
-    return res.redirect("/api/products");
+    return res.redirect("/api/profileProducts");
   }
   next();
 };
