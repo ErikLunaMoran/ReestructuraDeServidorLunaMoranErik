@@ -9,18 +9,6 @@ router.post(
   "/register",
   passport.authenticate("register", { failureRedirect: "/failregister" }),
   async (req, res) => {
-    if (user.role === "admin") {
-      res.redirect("/api/adminPage");
-    } else {
-      res.redirect("/api/profileProducts");
-    }
-  }
-);
-
-router.post(
-  "/register",
-  passport.authenticate("register", { failureRedirect: "/failregister" }),
-  async (req, res) => {
     res.redirect("login");
   }
 );
@@ -43,5 +31,21 @@ router.post(
     res.redirect("/profileProducts");
   }
 );
+
+router.post("/recover", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await userModel.findOne({ email }).lean();
+
+  if (!user) {
+    return res.send(
+      "Si tu correo existe en nuestros registros, recibiras un mail con la información para recuperar tu contraseña"
+    );
+  }
+
+  user.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  await userModel.updateOne({ email }, user);
+
+  res.redirect("/login");
+});
 
 export default router;

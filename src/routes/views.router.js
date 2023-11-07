@@ -24,7 +24,11 @@ router.get("/singup", publicRoutes, (req, res) => {
   res.render("singup");
 });
 
-router.get("/api/profileProducts", privateRoutes, async (req, res) => {
+router.get("/recover", publicRoutes, (req, res) => {
+  res.render("recover");
+});
+
+router.get("/profileProducts", privateRoutes, async (req, res) => {
   const products = await productsManager.getAll();
   const { first_name, last_name, email, age } = req.session;
   res.render("products", { products, first_name, last_name, email, age });
