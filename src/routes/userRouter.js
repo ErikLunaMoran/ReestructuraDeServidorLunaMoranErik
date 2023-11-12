@@ -6,10 +6,11 @@ import passport from "passport";
 const router = Router();
 
 router.post(
-  "/register",
+  "/signup",
   passport.authenticate("register", { failureRedirect: "/failregister" }),
   async (req, res) => {
-    res.redirect("login");
+    console.log(req.user);
+    res.redirect("/login");
   }
 );
 
@@ -17,17 +18,30 @@ router.post(
   "/login",
   passport.authenticate("login", { failureRedirect: "/faillogin" }),
   async (req, res) => {
-    if (!req.user) {
-      res.status(400).send();
-    }
+    req.session.first_name = req.user.first_name;
+    req.session.last_name = req.user.last_name;
+    req.session.email = req.user.email;
+    req.session.age = req.user.age;
+    req.session.isLogged = true;
 
-    req.session.user = {
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      email: req.user.email,
-      age: req.user.age,
-    };
+    res.redirect("/profileProducts");
+  }
+);
 
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
+
+router.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  function (req, res) {
+    req.session.first_name = req.user.first_name;
+    req.session.last_name = req.user.last_name;
+    req.session.email = req.user.email;
+    req.session.age = req.user.age;
+    req.session.isLogged = true;
     res.redirect("/profileProducts");
   }
 );
@@ -48,4 +62,8 @@ router.post("/recover", async (req, res) => {
   res.redirect("/login");
 });
 
+router.get(
+  "github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
 export default router;

@@ -64,8 +64,11 @@ app.use(
 );
 
 initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/api", userRouter);
+/* app.use("/jwt", jwtRouter); */
 app.use("/", viewsRouter);
 
 //MENSAJES

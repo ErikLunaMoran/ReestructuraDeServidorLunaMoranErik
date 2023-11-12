@@ -19,9 +19,9 @@ router.get("/api/chat", (req, res) => res.render("chat", {}));
 router.get("/login", publicRoutes, (req, res) => {
   res.render("login");
 });
-//Endpoint de SingUp
-router.get("/singup", publicRoutes, (req, res) => {
-  res.render("singup");
+//Endpoint de SignUp
+router.get("/signup", publicRoutes, (req, res) => {
+  res.render("signup");
 });
 
 router.get("/recover", publicRoutes, (req, res) => {
