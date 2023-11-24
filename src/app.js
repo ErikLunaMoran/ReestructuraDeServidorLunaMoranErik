@@ -22,6 +22,7 @@ import userRouter from "./routes/userRouter.js";
 import CartManager from "./dao/db/CartsManager.js";
 //Models
 import { mensajeModel } from "./dao/models/messages.model.js";
+import cookieParser from "cookie-parser";
 
 //conexion a la base de datos ecommerce
 mongoose.connect(
@@ -66,6 +67,7 @@ app.use(
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser());
 
 app.use("/api", userRouter);
 /* app.use("/jwt", jwtRouter); */

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { userModel } from "../dao/models/user.model.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
+import jwt from "jsonwebtoken";
 
 const router = Router();
 
@@ -13,6 +14,8 @@ router.post(
     res.redirect("/login");
   }
 );
+
+//////////////////////////////////////////////////////////////////////////////////
 
 router.post(
   "/login",
@@ -28,10 +31,14 @@ router.post(
   }
 );
 
+//////////////////////////////////////////////////////////////////////////////////
+
 router.get(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] })
 );
+
+//////////////////////////////////////////////////////////////////////////////////
 
 router.get(
   "/githubcallback",
@@ -45,6 +52,8 @@ router.get(
     res.redirect("/profileProducts");
   }
 );
+
+//////////////////////////////////////////////////////////////////////////////////
 
 router.post("/recover", async (req, res) => {
   const { email, password } = req.body;
@@ -62,8 +71,20 @@ router.post("/recover", async (req, res) => {
   res.redirect("/login");
 });
 
+//////////////////////////////////////////////////////////////////////////////////
+
 router.get(
   "github",
   passport.authenticate("github", { scope: ["user:email"] })
+);
+
+//////////////////////////////////////////////////////////////////////////////////
+
+router.get(
+  "/sessions/current",
+  passport.authenticate("github", { session: false }),
+  async (req, res) => {
+    res.send(req.user);
+  }
 );
 export default router;
