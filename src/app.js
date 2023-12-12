@@ -19,15 +19,17 @@ import cartsRouter from "./routes/cartsRouter.js";
 import userRouter from "./routes/userRouter.js";
 //Managers
 /* import ProductManager from "./manager/ProductManager.js"; */
-import CartManager from "./dao/db/CartsManager.js";
+import CartManager from "./dao/controllers/CartsManager.js";
 //Models
 import { mensajeModel } from "./dao/models/messages.model.js";
 import cookieParser from "cookie-parser";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 //conexion a la base de datos ecommerce
-mongoose.connect(
-  "mongodb+srv://lunamoranerik:dPD7hggiuqpQOBkR@cluster0.svnnjjy.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=AtlasApp"
-);
+mongoose.connect(process.env.variableEntorno1);
 
 const app = express();
 //guardar instancia de servidor en una variable
@@ -54,11 +56,10 @@ app.use("/api/products", productsRouter);
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://lunamoranerik:dPD7hggiuqpQOBkR@cluster0.svnnjjy.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=AtlasApp",
+      mongoUrl: process.env.variableEntorno1,
       ttl: 15,
     }),
-    secret: "dxjimopcfvsdfv24$nbg9w4ro",
+    secret: process.env.variableEntorno2,
     resave: false,
     saveUninitialized: false,
   })
